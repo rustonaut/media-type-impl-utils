@@ -11,10 +11,10 @@ keywords      = [ ]
 
 [dependencies]
 lut = { path = "../lut" }
+quoted-string = { path="../quoted-string" }
 
 [features]
 default =  []
-media-type-chars = []
 
 [badges]
 travis-ci = { repository = "1aim/media-type-parser-utils", branch = "master" }
