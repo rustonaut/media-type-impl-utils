@@ -1,0 +1,23 @@
+[package]
+name = "media-type-parser-utils"
+version = "0.1.0"
+authors = ["Philipp Korber <p.korber@1aim.com>"]
+license = "MIT/Apache-2.0"
+description   = "utils for writing media-type parsers (char lookup table, Quted String Spec, ...)"
+readme        = "README.md"
+documentation = "https://docs.rs/media-type-parser-utils"
+repository    = "https://github.com/1aim/media-type-parser-utils"
+keywords      = [ ]
+
+[dependencies]
+lut = { path = "../lut" }
+
+[features]
+default =  []
+media-type-chars = []
+
+[badges]
+travis-ci = { repository = "1aim/media-type-parser-utils", branch = "master" }
+maintenance = { status = "actively-developed" }
+
+
