@@ -52,6 +52,21 @@ impl QuotingClassifier for MimeObsQuoting {
     }
 }
 
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
+pub struct MimeObsUtf8Quoting;
+
+impl QuotingClassifier for MimeObsUtf8Quoting {
+    fn classify_for_quoting(pcp: PartialCodePoint) -> QuotingClass {
+        let iu8 = pcp.as_u8();
+        if iu8 > 0x7f || MediaTypeChars::check_at(iu8 as usize, QTextWs) {
+            QuotingClass::QText
+        } else {
+            QuotingClass::NeedsQuoting
+        }
+    }
+}
+
+
 
 macro_rules! def_mime_parsing {
     (
