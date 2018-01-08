@@ -1,8 +1,7 @@
-use lut::{Table, Access};
+use lut::{Table};
 use lookup_tables::{
     MediaTypeChars,
     QTextWs,
-    DQuoteOrEscape,
     HttpToken
 };
 use quoted_string::error::CoreError;
@@ -11,7 +10,6 @@ use quoted_string::spec::{
     ParsingImpl,
     State,
     WithoutQuotingValidator,
-    QuotingClassifier, QuotingClass,
 };
 
 
