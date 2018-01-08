@@ -103,6 +103,28 @@ impl QuotingClassifier for NormalQuoting {
     }
 }
 
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
+pub struct NormalUtf8Quoting;
+
+impl QuotingClassifier for NormalUtf8Quoting {
+
+    fn classify_for_quoting(pcp: PartialCodePoint) -> QuotingClass {
+        let idx = pcp.as_u8() as usize;
+        if idx > 0x7f {
+            QuotingClass::QText
+        } else {
+            let lres = MediaTypeChars::lookup(idx);
+            if QTextWs.check(lres) {
+                QuotingClass::QText
+            } else if DQuoteOrEscape.check(lres) {
+                QuotingClass::NeedsQuoting
+            } else {
+                QuotingClass::Invalid
+            }
+        }
+    }
+}
+
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct RestrictedTokenValidator {
