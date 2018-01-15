@@ -2,45 +2,59 @@
 new_table! {
 
     pub flags {
-        /// CText
+        /// CText characters
         CText = CT,
-        /// ObsNoWsCtl
+
+        /// ObsNoWsCtl characters of the `obs-` part of the mime grammar which are not ws and not ctl
+        /// by combining this with other classes the `obs-` part of the grammar can be supported
+        /// e.g. `QText` + `ObsNoWsCtl` == `ObsQText` i.e. `QText` in the `obs-` grammar
         ObsNoWsCtl = NC,
-        /// Rfc7230Token
+
+        /// HttToken character allowed in a token given the grammar from RFC7230 (http)
         HttpToken = HT,
-        /// Token (Mime)
+
+        /// Token (Mime) characters allowed in a token given the grammar from RFC2045 (mime)
         Token = TO,
-        /// Restricted Token
+
+        /// Restricted Token, character allowed in a token wrt. to registering media types at IANA,
+        /// any registered media type has to be compatible with this any other should be, through
+        /// there is no guarantee for it.
         RestrictedToken = RT,
-        /// QText
+
+        /// QText characters, i.e. characters which can appear in a quoted string
+        /// without being escaped through quoted pairs
         QText = QC,
-        /// The characters mainly needing escaping i.e. '"' and '\\'
+
+        /// The characters mainly needing escaping (just `'"'` and `'\\'`)
+        ///
+        /// Note: while using a lookup just for to determine if it is `'"'` or `'\\'` makes little sense
+        /// using it with a already looked up value or in combination with others can make sense
         DQuoteOrEscape = DOE,
-        /// Ws  (\t and \r)
+
+        /// Ws  (just `'\t'` and `'\r'`)
+        ///
+        /// Note: while using a lookup just for to determine if it is `' '` or `'\t'` makes little sense
+        /// using it with a already looked up value or in combination with others can make sense
         Ws = Ws
     }
 
-    /// MediaTypeChars is a lookup table for a number of characterclasses relevant when parsing media types
+    /// MediaTypeChars is a lookup table for a number of character classes relevant when parsing media types
     ///
     /// This are mainly:
-    /// CText, ObsNoWsCtl, HttpToken, Token, RestrictedToken,
-    /// QText, DQuotesOrEscape and Ws
+    /// `CText`, `ObsNoWsCtl`, `HttpToken`, `Token`, `RestrictedToken`,
+    /// `QText`, `DQuotesOrEscape` and `Ws`
     ///
-    /// The classes HttpToken, Token and RestrictedToken are needed for the different specifications
-    /// of a "token" in Http, Mime and for IANA regestry compatible tokens.
+    /// The classes `HttpToken`, `Token` and `RestrictedToken` are needed for the different specifications
+    /// of a "token" in Http, Mime and for IANA registry compatible tokens.
     ///
-    /// The class CText is needed for Mime as Media-Types in Mime can contain comments :=(
-    /// The class ObsNoWsCtl is needed to support the obs-part of the grammar in Mime, the
+    /// The class `CText` is needed for Mime as Media-Types in Mime can contain comments :=(
+    /// The class `ObsNoWsCtl` is needed to support the obs-part of the grammar in Mime, the
     /// obs-part in Http is different and do not need a lookup as it "just" includes any higher
     /// byte (>0x7f).
     ///
-    /// Some of the classes like Ws or DQutesOrEscape are so small that they make no sense when
+    /// Some of the classes like `Ws` or `DQutesOrEscape` are so small that they make no sense when
     /// used for themself, but they do make sense if they are combined with others or used on
-    /// with lookup result already aviable.
-    ///
-    /// Additionally by combining aboves character classes following classes can be created by
-    /// combining them, which is as fast when used for lookup:
-    /// ObsQText, QTextWs, ObsQTextWs, VChar, VCharWs
+    /// with lookup result already available.
     ///
     pub struct MediaTypeChars {
         static data: [u8; 256] = [
@@ -105,18 +119,18 @@ new_table! {
 }
 
 accessor_any!{
-    /// QText or Ws
+    /// QText or Ws chars
     pub QTextWs = QText | Ws }
 accessor_any!{
-    /// QText incl. obs-parts
+    /// QText incl. obs-parts of the mime grammar
     pub ObsQText = QText | ObsNoWsCtl }
 accessor_any!{
-    /// QText incl. obs-parts or Ws
+    /// QText incl. obs-parts (mime) or ws
     pub ObsQTextWs = QText | ObsNoWsCtl }
 accessor_any!{
-    /// VChar
+    /// VChar printable us-ascii chars (i.e. `'!' <= ch && ch <= '~'`)
     pub VChar = QText | DQuoteOrEscape }
 accessor_any!{
-    /// VChar or Ws
+    /// VChar or Ws (i.e. `(' ' <= ch && ch <= '~') || ch == '\t'`)
     pub VCharWs = QText | DQuoteOrEscape | Ws }
 
