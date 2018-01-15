@@ -6,7 +6,7 @@ use lut::Table;
 /// a percent-encoding EncodeSet for Http tokens
 ///
 /// (usable for parameter value percent encoding rfc8187)
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Default, Eq, PartialEq, Hash)]
 pub struct HttpPercentEncodeSet;
 
 impl EncodeSet for HttpPercentEncodeSet {
@@ -19,7 +19,7 @@ impl EncodeSet for HttpPercentEncodeSet {
 /// a percent-encoding EncodeSet for Mime tokens
 ///
 /// (usable for parameter value percent encoding rfc2231)
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Default, Eq, PartialEq, Hash)]
 pub struct MimePercentEncodeSet;
 
 impl EncodeSet for MimePercentEncodeSet {
