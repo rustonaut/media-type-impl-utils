@@ -4,8 +4,8 @@ use lookup_tables::{
     QTextWs,
     HttpToken
 };
-use quoted_string::error::CoreError;
-use quoted_string::spec::{
+use qs::error::CoreError;
+use qs::spec::{
     PartialCodePoint,
     ParsingImpl,
     State,

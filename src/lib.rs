@@ -12,7 +12,7 @@
 ///   media-type parsing.
 #[macro_use]
 extern crate lut;
-extern crate quoted_string;
+extern crate quoted_string as qs;
 
 pub mod lookup_tables;
-pub mod quoted_string_spec;
+pub mod quoted_string;

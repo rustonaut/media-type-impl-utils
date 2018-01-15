@@ -5,8 +5,8 @@ use lookup_tables::{
     ObsQTextWs, QTextWs,
     Ws
 };
-use quoted_string::error::CoreError;
-use quoted_string::spec::{
+use qs::error::CoreError;
+use qs::spec::{
     PartialCodePoint,
     ParsingImpl,
     State

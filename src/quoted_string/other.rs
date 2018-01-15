@@ -5,8 +5,8 @@ use lookup_tables::{
     DQuoteOrEscape,
     RestrictedToken, VCharWs
 };
-use quoted_string::error::CoreError;
-use quoted_string::spec::{
+use qs::error::CoreError;
+use qs::spec::{
     PartialCodePoint,
     ParsingImpl,
     State,
@@ -158,7 +158,7 @@ mod test {
     mod NormalParsingImpl {
         //it's not unused rustc just falls over wrt. the unused detection and `use super::*`
         #[allow(unused_imports)]
-        use quoted_string::spec::ParsingImpl;
+        use qs::spec::ParsingImpl;
         use super::super::{NormalParsingImpl, PartialCodePoint};
 
         mod can_be_quoted {
@@ -178,8 +178,8 @@ mod test {
         }
 
         mod handle_normal_state {
-            use quoted_string::spec::State;
-            use quoted_string::error::CoreError;
+            use qs::spec::State;
+            use qs::error::CoreError;
             use super::*;
 
             #[test]
@@ -219,7 +219,7 @@ mod test {
     mod StrictParsingImpl {
         //it's not unused rustc just falls over wrt. the unused detection and `use super::*`
         #[allow(unused_imports)]
-        use quoted_string::spec::ParsingImpl;
+        use qs::spec::ParsingImpl;
         use super::super::{StrictParsingImpl, PartialCodePoint};
 
         mod can_be_quoted {
@@ -239,8 +239,8 @@ mod test {
         }
 
         mod handle_normal_state {
-            use quoted_string::spec::State;
-            use quoted_string::error::CoreError;
+            use qs::spec::State;
+            use qs::error::CoreError;
             use super::*;
 
             #[test]
@@ -280,7 +280,7 @@ mod test {
     mod AnyQuoting {
         //it's not unused rustc just falls over wrt. the unused detection and `use super::*`
         #[allow(unused_imports)]
-        use quoted_string::spec::QuotingClassifier;
+        use qs::spec::QuotingClassifier;
         use super::super::{PartialCodePoint, AnyQuoting, QuotingClass};
 
         mod classify_for_quoting {
@@ -311,7 +311,7 @@ mod test {
     mod NormalQuoting {
         //it's not unused rustc just falls over wrt. the unused detection and `use super::*`
         #[allow(unused_imports)]
-        use quoted_string::spec::QuotingClassifier;
+        use qs::spec::QuotingClassifier;
         use super::super::{PartialCodePoint, NormalQuoting, QuotingClass};
 
         mod classify_for_quoting {
