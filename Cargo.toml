@@ -1,6 +1,6 @@
 [package]
 name = "media-type-parser-utils"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Philipp Korber <p.korber@1aim.com>"]
 license = "MIT/Apache-2.0"
 description   = "utils for writing media-type parsers (char lookup table, Quted String Spec, ...)"
