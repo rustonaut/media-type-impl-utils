@@ -22,6 +22,7 @@ use super::{MimeParsingExt, FWSState};
 pub struct MimeTokenValidator;
 
 impl MimeTokenValidator {
+    /// create a new MimeTokenValidator
     pub fn new() -> Self {
         Default::default()
     }

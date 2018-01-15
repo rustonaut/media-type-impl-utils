@@ -40,6 +40,7 @@ impl ParsingImpl for HttpObsParsingImpl {
 pub struct HttpTokenValidator;
 
 impl HttpTokenValidator {
+    /// create a new HttpTokenValidator
     pub fn new() -> Self {
         Default::default()
     }
