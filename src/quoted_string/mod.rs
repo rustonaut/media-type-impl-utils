@@ -108,9 +108,13 @@ impl FWSState {
                 }
             },
             HitNl => {
-                //TODO FWS can have blank lines in obs- grammar!
                 if iu8 == b' ' || iu8 == b'\t' {
-                    Ok(Impl::custom_state(FWSState::HadFws, true))
+                    if Impl::OBS {
+                        Ok((State::Normal, true))
+                    } else {
+                        //the new grammar does not allow ws-only lines, `obs-` one does
+                        Ok(Impl::custom_state(FWSState::HadFws, true))
+                    }
                 } else {
                     Err(CoreError::InvalidChar)
                 }
@@ -119,6 +123,10 @@ impl FWSState {
                 let lres = MediaTypeChars::lookup(iu8 as usize);
                 // QText will be zero-sized so default etc. will be optimized awy
                 let is_qtext = if Impl::OBS {
+                    // we really should not ever end up in this branch as this state is
+                    // meant to be used with non `obs-` grammar, but then it can be used
+                    // differently too, and the if get's compiler optimized awy so
+                    // it should be fine
                     QText.check(lres)
                 } else {
                     ObsQText.check(lres)
