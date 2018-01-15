@@ -13,6 +13,10 @@
 #[macro_use]
 extern crate lut;
 extern crate quoted_string as qs;
+extern crate percent_encoding as penc;
 
 pub mod lookup_tables;
+/// impl of traits from the quoted-string crate for parsing media types
 pub mod quoted_string;
+/// impl of EncodingSet's for encoding parameter values if needed
+pub mod percent_encoding;

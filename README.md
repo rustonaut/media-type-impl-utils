@@ -20,3 +20,8 @@ be dual licensed as above, without any additional terms or conditions.
 
 Change Log
 ==========
+
+- **2.1**
+    - Added percent_encoding module providing percent-encoding `EncodingSet` implementations for 
+      Http and Mime tokens.
+    
