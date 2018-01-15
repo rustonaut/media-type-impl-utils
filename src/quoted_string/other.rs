@@ -14,6 +14,11 @@ use qs::spec::{
     QuotingClassifier, QuotingClass,
 };
 
+
+/// a type providing a "catch-all" `ParsingImpl` impl.
+///
+/// Note that because it's "catch-all" it means it supports all quircses from other impl. like
+/// e.g. FWS and Comments from the Mime impl
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct AnyParsingImpl;
 
@@ -29,15 +34,20 @@ impl ParsingImpl for AnyParsingImpl {
 
 }
 
+/// A type providing the standart `ParsingImpl` impl.
+///
+/// This can be use for the (modern) http grammar and the (modern, non internationalized) mime grammar.
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct NormalParsingImpl;
 
 impl ParsingImpl for NormalParsingImpl {
 
+    /// any VChar or Ws character can be used
     fn can_be_quoted(bch: PartialCodePoint) -> bool {
         MediaTypeChars::check_at(bch.as_u8() as usize, VCharWs)
     }
 
+    /// any QText or Ws character advances the normal state everything else is invalid
     fn handle_normal_state(bch: PartialCodePoint) -> Result<(State<Self>, bool), CoreError> {
         if MediaTypeChars::check_at(bch.as_u8() as usize, QTextWs) {
             Ok((State::Normal, true))
@@ -48,16 +58,31 @@ impl ParsingImpl for NormalParsingImpl {
 
 }
 
+/// A type providing a strict `ParsingImpl`.
+///
+/// The strict parser is based on the constraints for registering media-types with IANA.
+///
+/// A media type compatible with this impl should be valid in any context in which a media
+/// type can appear.
+///
+/// All media types _should_ be compatible with this impl, but they do not have to.
+///
+/// Note that this impl is a bit more strict than just IANA registry compatibility wrt.
+/// quoted-strings in media-types as it only allows quoted-pairs with chars which can not be
+/// represented in another way i.e. `'"'` and `'\\'`.
+///
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct StrictParsingImpl;
 
 impl ParsingImpl for StrictParsingImpl {
 
+    /// only allow `'"'` and `'\\'`
     fn can_be_quoted(bch: PartialCodePoint) -> bool {
         let iu8 = bch.as_u8();
         iu8 == b'"' || iu8 == b'\\'
     }
 
+    /// any qtext or ws is ok, others are invalid
     fn handle_normal_state(bch: PartialCodePoint) -> Result<(State<Self>, bool), CoreError> {
         if MediaTypeChars::check_at(bch.as_u8() as usize, QTextWs) {
             Ok((State::Normal, true))
@@ -69,7 +94,7 @@ impl ParsingImpl for StrictParsingImpl {
 
 
 
-
+/// a type providing a "catch-all" `QuotingClassifier` impl
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct AnyQuoting;
 
@@ -84,7 +109,7 @@ impl QuotingClassifier for AnyQuoting {
     }
 }
 
-
+/// a type providing a "catch-all" impl for `QuotingClassifier`
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct NormalQuoting;
 
@@ -103,6 +128,7 @@ impl QuotingClassifier for NormalQuoting {
     }
 }
 
+/// a variation or `NormalUtf8Quoting` treating all non-us-ascii chars as qtext
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct NormalUtf8Quoting;
 
@@ -125,13 +151,16 @@ impl QuotingClassifier for NormalUtf8Quoting {
     }
 }
 
-
+/// a type providing a strict `WithoutQuotingValidator` impl
+///
+/// The restrictions are based on the restrictions applied to media types which can be registered
+/// with IANA.
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
-pub struct RestrictedTokenValidator {
+pub struct StrictTokenValidator {
     count: usize
 }
 
-impl WithoutQuotingValidator for RestrictedTokenValidator {
+impl WithoutQuotingValidator for StrictTokenValidator {
     fn next(&mut self, pcp: PartialCodePoint) -> bool {
         let iu8 = pcp.as_u8();
         let res =
@@ -366,7 +395,7 @@ mod test {
         #[allow(unused_imports)]
         use super::super::WithoutQuotingValidator;
         use super::super::{
-            RestrictedTokenValidator, PartialCodePoint
+            StrictTokenValidator, PartialCodePoint
         };
 
         mod next {
@@ -374,7 +403,7 @@ mod test {
 
             #[test]
             fn single_ascii_alphanumeric_char_is_valid() {
-                let mut vali = RestrictedTokenValidator::default();
+                let mut vali = StrictTokenValidator::default();
                 assert!(vali.next(PartialCodePoint::from_code_point('A' as u32)));
                 assert!(vali.end());
 
@@ -383,7 +412,7 @@ mod test {
             #[test]
             fn simple_token() {
                 let text = "vnd.extra.yay+noo";
-                let mut vali = RestrictedTokenValidator::default();
+                let mut vali = StrictTokenValidator::default();
                 for bch in text.bytes() {
                     assert!(vali.next(PartialCodePoint::from_utf8_byte(bch)));
                 }
@@ -392,7 +421,7 @@ mod test {
 
             #[test]
             fn failed_next_does_not_increase_counter() {
-                let mut vali = RestrictedTokenValidator::default();
+                let mut vali = StrictTokenValidator::default();
                 assert!(!vali.next(PartialCodePoint::from_code_point('~' as u32)));
                 assert_eq!(vali.count, 0);
             }
@@ -405,7 +434,7 @@ mod test {
 
             #[test]
             fn length_limit_is_checked() {
-                let mut vali = RestrictedTokenValidator::default();
+                let mut vali = StrictTokenValidator::default();
                 for _ in 0..128 {
                     assert!(vali.next(PartialCodePoint::from_code_point('a' as u32)));
                 }
@@ -414,7 +443,7 @@ mod test {
 
             #[test]
             fn after_content_is_ok() {
-                let mut vali = RestrictedTokenValidator::default();
+                let mut vali = StrictTokenValidator::default();
                 for _ in 0..127 {
                     assert!(vali.next(PartialCodePoint::from_code_point('a' as u32)));
                 }
@@ -423,7 +452,7 @@ mod test {
 
             #[test]
             fn after_content_after_failed_is_ok() {
-                let mut vali = RestrictedTokenValidator::default();
+                let mut vali = StrictTokenValidator::default();
                 for _ in 0..5 {
                     assert!(vali.next(PartialCodePoint::from_code_point('a' as u32)));
                 }

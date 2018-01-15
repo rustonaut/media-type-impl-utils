@@ -17,6 +17,7 @@ use qs::spec::{
 
 use super::{MimeParsingExt, FWSState};
 
+/// a type providing a `WithoutQuotingValidator` for token wrt. the mime grammar
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct MimeTokenValidator;
 
@@ -36,6 +37,7 @@ impl WithoutQuotingValidator for MimeTokenValidator {
 }
 
 
+/// a type providing a `QuotingClassifier` impl wrt. the obs mime grammar
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct MimeObsQuoting;
 
@@ -52,6 +54,7 @@ impl QuotingClassifier for MimeObsQuoting {
     }
 }
 
+/// a type providing a `QuotingClassifier` impl wrt. the internationalized, obs mime grammar
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Default)]
 pub struct MimeObsUtf8Quoting;
 
@@ -107,6 +110,7 @@ macro_rules! def_mime_parsing {
 }
 
 def_mime_parsing! {
+    /// a type providing a `ParsingImpl`/`MimeParsingExt` impl wrt. the obs mime grammar
     pub struct MimeObsParsing {
         utf8 = false;
         obsolte_syntax = true;
@@ -118,6 +122,7 @@ def_mime_parsing! {
 }
 
 def_mime_parsing! {
+    /// a type providing a `ParsingImpl`/`MimeParsingExt` impl wrt. the internationalized obs mime grammar
     pub struct MimeObsParsingUtf8 {
         utf8 = true;
         obsolte_syntax = true;
@@ -130,6 +135,7 @@ def_mime_parsing! {
 }
 
 def_mime_parsing! {
+    /// a type providing a `ParsingImpl`/`MimeParsingExt` impl wrt. the modern, us-ascii mime grammar
     pub struct MimeParsing {
         utf8 = false;
         obsolte_syntax = false;
@@ -142,6 +148,7 @@ def_mime_parsing! {
 }
 
 def_mime_parsing! {
+    /// a type providing a `ParsingImpl`/`MimeParsingExt` impl wrt. the internationalized, modern mime grammar
     pub struct MimeParsingUtf8 {
         utf8 = true;
         obsolte_syntax = false;

@@ -77,8 +77,11 @@ pub trait MimeParsingExt: ParsingImpl {
 /// a FWS is a `"\r\n"` seq followed by either `' '` or `'\t'`.
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub enum FWSState {
+    /// the state after the first `'\r'`
     HitCr,
+    /// the state after `"\r\n"`
     HitNl,
+    /// the state after `"\r\n "` or `"\r\n\t"` + any number of ws chars
     HadFws
 }
 
