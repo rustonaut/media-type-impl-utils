@@ -1,4 +1,4 @@
-media-type-parser-utils  [![Crates.io](https://img.shields.io/crates/v/media-type-parser-utils.svg)](https://crates.io/crates/media-type-parser-utils) [![media-type-parser-utils](https://docs.rs/media-type-parser-utils/badge.svg)](https://docs.rs/media-type-parser-utils) [![License](https://img.shields.io/badge/License-MIT%2FApache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Build Status](https://travis-ci.org/1aim/media-type-parser-utils.svg?branch=master)](https://travis-ci.org/1aim/media-type-parser-utils)
+media-type-impl-utils  [![Crates.io](https://img.shields.io/crates/v/media-type-impl-utils.svg)](https://crates.io/crates/media-type-impl-utils) [![media-type-impl-utils](https://docs.rs/media-type-impl-utils/badge.svg)](https://docs.rs/media-type-impl-utils) [![License](https://img.shields.io/badge/License-MIT%2FApache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Build Status](https://travis-ci.org/1aim/media-type-impl-utils.svg?branch=master)](https://travis-ci.org/1aim/media-type-impl-utils)
 =================================
 
 

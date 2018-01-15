@@ -1,12 +1,12 @@
 [package]
-name = "media-type-parser-utils"
-version = "0.2.1"
+name = "media-type-impl-utils"
+version = "0.3.0"
 authors = ["Philipp Korber <p.korber@1aim.com>"]
 license = "MIT/Apache-2.0"
 description   = "utils for writing media-type parsers (char lookup table, Quted String Spec, ...)"
 readme        = "README.md"
-documentation = "https://docs.rs/media-type-parser-utils"
-repository    = "https://github.com/1aim/media-type-parser-utils"
+documentation = "https://docs.rs/media-type-impl-utils"
+repository    = "https://github.com/1aim/media-type-impl-utils"
 keywords      = [ ]
 
 [dependencies]
@@ -18,7 +18,7 @@ percent-encoding = "1.0.0"
 default =  []
 
 [badges]
-travis-ci = { repository = "1aim/media-type-parser-utils", branch = "master" }
+travis-ci = { repository = "1aim/media-type-impl-utils", branch = "master" }
 maintenance = { status = "actively-developed" }
 
 
