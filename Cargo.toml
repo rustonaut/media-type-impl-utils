@@ -11,7 +11,7 @@ keywords      = [ ]
 
 [dependencies]
 lut = { git = "https://github.com/1aim/lut" }
-quoted-string = { git="https://github.com/1aim/quoted-string" }
+quoted-string = "0.6"
 percent-encoding = "1.0.0"
 
 [features]
