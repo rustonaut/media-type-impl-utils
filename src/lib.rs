@@ -10,6 +10,13 @@
 //!
 //! - `lookup_table`: provides a `lut` lookup table for bytes/us-ascii chars used in context of
 //!   media-type parsing.
+//!
+//! **Note: Currently is crate is rather unstable. It will still keep to
+//!  semver but changing to a newer (braking) version might induce large
+//!  api changes. Sill bug-fixes to older versions can be done if requested
+//!  so it can be used as a internal dependency. Just don't expect that all
+//!  braking changes will try to keep as much api compatibility as possible
+//!  as it should be done with more stable crates**
 #![warn(missing_docs)]
 
 #[macro_use]

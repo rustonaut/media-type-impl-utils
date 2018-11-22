@@ -2,6 +2,15 @@ media-type-impl-utils  [![Crates.io](https://img.shields.io/crates/v/media-type-
 =================================
 
 
+Utilities for implementing media type parsers. This is mainly used
+by the `media-type` crate but some of the grammar parts also apply
+to other parts (e.g. quoted-strings in some mail headers) so it can
+be usefull to be able to reuse them.
+
+**Note: Currently is crate is rather unstable. It will still keep to
+  semver but changing to a newer (braking) version might induce large
+  api changes.**
+
 License
 =======
 Licensed under either of
@@ -21,7 +30,11 @@ be dual licensed as above, without any additional terms or conditions.
 Change Log
 ==========
 
-- **2.1**
-    - Added percent_encoding module providing percent-encoding `EncodingSet` implementations for 
+- **0.2.1**
+    - Added percent_encoding module providing percent-encoding `EncodingSet` implementations for
       Http and Mime tokens.
-    
+
+- **0.3.0**
+    - use `quoted-string` v0.6
+    - renamed crate
+    - implement Default for 0-sized type provider structs

@@ -1,8 +1,8 @@
 [package]
 name = "media-type-impl-utils"
-version = "0.3.0"
+version = "0.3.0-unstable"
 authors = ["Philipp Korber <p.korber@1aim.com>"]
-license = "MIT/Apache-2.0"
+license = "MIT OR Apache-2.0"
 description   = "utils for writing media-type parsers (char lookup table, Quted String Spec, ...)"
 readme        = "README.md"
 documentation = "https://docs.rs/media-type-impl-utils"
