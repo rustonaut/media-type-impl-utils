@@ -10,7 +10,7 @@ repository    = "https://github.com/1aim/media-type-impl-utils"
 keywords      = [ ]
 
 [dependencies]
-lut = { git = "https://github.com/1aim/lut" }
+lut = "0.1.0-unstable"
 quoted-string = "0.6"
 percent-encoding = "1.0.0"
 
